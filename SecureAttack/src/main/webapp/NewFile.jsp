@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	아녕하세요ㅎㅎ UTF-8 설정완료
+	안녕하세요
 </body>
 </html>

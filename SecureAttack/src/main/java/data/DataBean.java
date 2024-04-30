@@ -1,3 +1,5 @@
+package data;
+
 public class DataBean {
 	private String year;
 	private String cName;

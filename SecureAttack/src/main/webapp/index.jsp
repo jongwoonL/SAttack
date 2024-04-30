@@ -11,6 +11,7 @@
 %>
 <table border="1">
 	<tr>
+		<th>공격국가</th>
 		<th>trans_ip</th>
 	</tr>
 <%
@@ -18,6 +19,7 @@
 		 DataBean data = dataList.get(i);
 %>
 	<tr>
+		<td><%=data.getcName()%></td>
 		<td><%=data.getTrans_ip() %></td>
 	</tr>
 <%

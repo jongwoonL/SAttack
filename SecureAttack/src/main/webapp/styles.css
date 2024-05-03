@@ -1,57 +1,58 @@
-.container {
-    display: grid;
-    grid-template-columns: 4fr 6fr; /* 4:6 비율로 나누기 */
-    grid-auto-rows: auto;
-    gap: 10px;
-    width: 2000px;
-}
-
-.left-section {
-    display: grid;
-    grid-template-rows: 2fr 4fr 4fr; /* 2:4:4 비율로 나누기 */
-    gap: 10px;
-}
-
-.right-section {
-    display: grid;
-    grid-template-rows: 8fr 2fr; /* 상단 영역과 하단 영역을 비율로 나누기 */
-    gap: 10px;
-}
-
-.left-section-inner, .right-section-inner {
-	display: flex;
-	flex-direction: column;
-	justify-content: center; /* 수직 가운데 정렬 */
-}
-
-.logo-title-container {
-    display: grid;
-    grid-template-columns: 3fr 7fr; /* 4:6 비율로 나누기 */
+div {
+    border: 1px solid black;
+    padding: 5px;
+    margin: 5px;
 }
 
 .logo-container, .title-container {
-	height: auto;
 	display: flex;
+	height: 100px;
 	justify-content: center; /* 수평 가운데 정렬 */
 	align-items: center; /* 수직 가운데 정렬 */
 }
 
-.chart-container, .treemap-container {
-	height: auto;
-	display: flex;
-	justify-content: center; /* 수평 가운데 정렬 */
-	align-items: center; /* 수직 가운데 정렬 */
+.container {
+	display: grid;
+	grid-template-columns: 4fr 6fr;
 }
 
-.map-container {
-	height: auto;
+.left-section {
 	display: flex;
-	justify-content: center; /* 수평 가운데 정렬 */
-	align-items: center; /* 수직 가운데 정렬 */
+	flex-direction: column;
+}
+
+.left-section-inner1 {
+	display: grid;
+	grid-template-columns: 2fr 8fr;
+}
+
+.left-section-inner2 {
+	display: flex;
+	flex-direction: column;
+}
+
+.left-section-inner3 {
+	display: flex;
+	flex-direction: column;
+}
+
+.right-section {
+	display: flex;
+	flex-direction: column;
+}
+
+.right-section-inner1 {
+	display: flex;
+	flex-direction: column;
+}
+
+.right-section-inner2 {
+	display: flex;
+	flex-direction: column;
 }
 
 .table-container {
-    max-height: 230px;
+    max-height: 550px;
     overflow-y: auto;
 }
 
@@ -68,13 +69,4 @@ th, td {
 
 th {
     background-color: #f2f2f2;
-}
-
-.logo {
-    width: 100%;
-    height: auto;
-}
-
-div {
-    border: 1px solid black;
 }

@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -78,7 +80,7 @@ public class DBBean {
 		return dataList;
 	}
 	
-	// 시각화에 사용할 데이터를 얻어내는 메소드
+	// 시각화에 사용할 국가별 카운트 데이터를 얻어내는 메소드
 		public List<DataBean2> getDatas2() throws Exception {
 			Connection conn = null;
 			PreparedStatement pstmt = null;
@@ -124,6 +126,9 @@ public class DBBean {
 					} catch (SQLException ex) {
 					}
 			}
+			// dataList2 정렬
+		    Collections.sort(dataList2, (a, b) -> b.getCount() - a.getCount());
+		    
 			return dataList2;
 		}
 

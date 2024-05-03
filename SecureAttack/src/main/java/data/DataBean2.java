@@ -5,7 +5,7 @@ public class DataBean2 {
 	private String cCode;
 	private float longitude;
 	private float latitude;
-	private int count;
+	private int cNum;
 	
 	public String getcName() {
 		return cName;
@@ -31,10 +31,10 @@ public class DataBean2 {
 	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
-	public int getCount() {
-		return count;
+	public int getCNum() {
+		return cNum;
 	}
-	public void setCount(int count) {
-		this.count = count;
+	public void setCNum(int cNum) {
+		this.cNum = cNum;
 	}
 }

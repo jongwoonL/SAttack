@@ -23,7 +23,7 @@
 %>
 	<tr>
 		<td><%=data2.getcName()%></td>
-		<td><%=data2.getCount() %></td>
+		<td><%=data2.getCNum() %></td>
 	</tr>
 <%
 	}

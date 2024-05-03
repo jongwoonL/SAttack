@@ -90,7 +90,7 @@ public class DBBean {
 			try {
 				conn = getConnection();
 
-				String sql1 = "SELECT country.cCode, country.cName, country.latitude, country.longitude, COUNT(*) AS count FROM attackip JOIN country ON attackip.cCode = country.cCode GROUP BY country.cCode, country.cName, country.latitude, country.longitude;";
+				String sql1 = "SELECT country.cCode, country.cName, country.latitude, country.longitude, COUNT(*) AS cNum FROM attackip JOIN country ON attackip.cCode = country.cCode GROUP BY country.cCode, country.cName, country.latitude, country.longitude;";
 				pstmt = conn.prepareStatement(sql1);				
 				rs = pstmt.executeQuery();
 
@@ -102,7 +102,7 @@ public class DBBean {
 						data2.setcCode(rs.getString("cCode"));
 						data2.setLongitude(rs.getFloat("longitude"));
 						data2.setLatitude(rs.getFloat("latitude"));
-						data2.setCount(rs.getInt("count"));
+						data2.setCNum(rs.getInt("cNum"));
 
 						dataList2.add(data2);
 					} while (rs.next());
@@ -127,7 +127,7 @@ public class DBBean {
 					}
 			}
 			// dataList2 정렬
-		    Collections.sort(dataList2, (a, b) -> b.getCount() - a.getCount());
+		    Collections.sort(dataList2, (a, b) -> b.getCNum() - a.getCNum());
 		    
 			return dataList2;
 		}

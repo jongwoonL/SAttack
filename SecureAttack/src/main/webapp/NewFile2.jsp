@@ -53,7 +53,7 @@
 				            {
 				                homelat: <%= data2.getLatitude() %>,
 				                homelon: <%= data2.getLongitude() %>,
-				                n: <%= data2.getCount() %> // 데이터에서 국가별 횟수 가져오기	            
+				                n: <%= data2.getCNum() %> // 데이터에서 국가별 횟수 가져오기	            
 				            },
 				        <% } %>
 				    ];
@@ -177,7 +177,7 @@
 					<tr>
 						<td><%=i+1%></td>
 						<td><%=data2.getcName()%></td>
-						<td><%=data2.getCount() %></td>
+						<td><%=data2.getCNum() %></td>
 					</tr>
 				<%
 					}

@@ -1,17 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="data.DBBean"%>
-<%@ page import="data.DataBean"%>
-<%@ page import="data.DataBean2"%>
-<%@ page import="java.util.*"%>
+<%@ include file="data.jsp" %>
 
-<%
-	List<DataBean> dataList = null;
-	List<DataBean2> dataList2 = null;
-	DBBean dataProcess = DBBean.getInstance();
-	dataList = dataProcess.getDatas();
-	dataList2 = dataProcess.getDatas2();
-%>
 <table border="1">
 	<tr>
 		<th>공격국가</th>

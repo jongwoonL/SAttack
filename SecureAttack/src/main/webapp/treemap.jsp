@@ -18,7 +18,7 @@
 		for (DataBean2 data2 : dataList2) {%>
             {
                 "cName": "<%=data2.getcName()%>",
-                "AttackCount": <%=data2.getCNum()%>,
+                "cNum": <%=data2.getCNum()%>,
                 "index": <%=index++%>
             },
 <%
@@ -38,7 +38,7 @@
                     .round(true);
 
     var root = d3.hierarchy({children: data})
-                .sum(function(d) { return d.AttackCount; })
+                .sum(function(d) { return d.cNum; })
                 .sort(function(a, b) { return b.height - a.height || b.value - a.value; });
 
     treemap(root);

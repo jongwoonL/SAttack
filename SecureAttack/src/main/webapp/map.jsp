@@ -55,7 +55,10 @@ ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dat
             )
           .style("stroke", "none")
           .style("opacity", .3)
-
+	
+      // 색상 스케일 정의
+		var colorScale = d3.scaleOrdinal(d3.schemeCategory10);    
+          
       // Add circles:
       map
         .selectAll("myCircles")
@@ -65,7 +68,7 @@ ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dat
           .attr("cx", function(d){ return projection([+d.homelon, +d.homelat])[0] })
           .attr("cy", function(d){ return projection([+d.homelon, +d.homelat])[1] })
           .attr("r", function(d){ return Math.sqrt(d.n * 0.1) }) // 원의 크기 설정
-          .style("fill", "steelblue") // 원의 색상 설정
+          .style("fill", function(d, i) { return colorScale(i); }) // 10가지 색상 중 하나를 선택하여 적용
           .attr("stroke", "black")
           .attr("stroke-width", 1)
           .attr("fill-opacity", .4)

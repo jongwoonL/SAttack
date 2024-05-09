@@ -36,6 +36,11 @@
 					<h1>악성 IP 기반 국가별 국내 유입 현황</h1>
 				</div>
 				<div class="map-container">
+					<div class="button-container">
+						<a href="map.jsp?data=2018"><button>버튼 1</button></a>
+						<a href="map.jsp?data=2019"><button>버튼 2</button></a>
+						<a href="map.jsp?data=2020"><button>버튼 3</button></a>
+					</div>
 					<jsp:include page="map.jsp"/>
 				</div>
 			</div>

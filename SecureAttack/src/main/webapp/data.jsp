@@ -9,10 +9,8 @@
 
 <%
 	// 데이터베이스로부터 데이터를 가져오기
-	List<DataBean> dataList = null;
 	List<DataBean2> dataList2 = null;
 	DBBean dataProcess = DBBean.getInstance();
-	dataList = dataProcess.getDatas();
 	dataList2 = dataProcess.getDatas2();
 	
     // dataList2를 request 객체에 설정하여 다른 JSP 파일로 전달

@@ -9,22 +9,29 @@
 
 <svg class="map" id="map" width="1000" height="800"></svg>
 
+<%@ include file="data.jsp" %>
+
 <%			
-ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dataList2");
+//ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dataList2");
+String data = request.getParameter("data");
 %>
 
 <!-- 지도 차트 스크립트 -->
 <script>
     // JavaScript로 데이터 변환
     var dataList2 = [
-        <%for (DataBean2 data2 : dataList2) {%>
-            {
-                homelat: <%=data2.getLatitude()%>,
-                homelon: <%=data2.getLongitude()%>,
-                n: <%=data2.getcNum2020()%> // 데이터에서 국가별 횟수 가져오기	            
-            },
-        <%}%>
-    ];
+    <% for (DataBean2 data2 : dataList2) { %>
+        {
+            homelat: <%= data2.getLatitude() %>,
+            homelon: <%= data2.getLongitude() %>,
+            <% if (data.equals("") || data.equals("2020")) { %>
+                n: <%= data2.getcNum2020() %> // 데이터에서 국가별 횟수 가져오기	   
+            <% } else if (data.equals("2019")) { %>
+                n: <%= data2.getcNum2019() %> // 데이터에서 국가별 횟수 가져오기	
+            <% } %>
+        },
+    <% } %>
+	];
 
     // The svg
     var map = d3.select("#map"),

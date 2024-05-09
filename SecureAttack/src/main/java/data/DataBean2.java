@@ -5,8 +5,21 @@ public class DataBean2 {
 	private String cCode;
 	private float longitude;
 	private float latitude;
-	private int cNum;
+	private int cNum2019;
+	private int cNum2020;
 	
+	public int getcNum2019() {
+		return cNum2019;
+	}
+	public void setcNum2019(int cNum2019) {
+		this.cNum2019 = cNum2019;
+	}
+	public int getcNum2020() {
+		return cNum2020;
+	}
+	public void setcNum2020(int cNum2020) {
+		this.cNum2020 = cNum2020;
+	}
 	public String getcName() {
 		return cName;
 	}
@@ -30,11 +43,5 @@ public class DataBean2 {
 	}
 	public void setLatitude(float latitude) {
 		this.latitude = latitude;
-	}
-	public int getCNum() {
-		return cNum;
-	}
-	public void setCNum(int cNum) {
-		this.cNum = cNum;
 	}
 }

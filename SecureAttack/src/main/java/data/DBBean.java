@@ -90,7 +90,8 @@ public class DBBean {
 			try {
 				conn = getConnection();
 
-				String sql1 = "SELECT country.cCode, country.cName, country.latitude, country.longitude, COUNT(*) AS cNum FROM attackip JOIN country ON attackip.cCode = country.cCode GROUP BY country.cCode, country.cName, country.latitude, country.longitude;";
+				String sql1 = "SELECT cCode, cName, latitude, longitude, SUM(CASE WHEN year = 2019 THEN cNum ELSE 0 END) AS cNum2019, SUM(CASE WHEN year = 2020 THEN cNum ELSE 0 END) AS cNum2020 FROM dataset GROUP BY cCode, cName, latitude, longitude"
+						+ " order by cNum2020 desc;";
 				pstmt = conn.prepareStatement(sql1);				
 				rs = pstmt.executeQuery();
 
@@ -102,7 +103,8 @@ public class DBBean {
 						data2.setcCode(rs.getString("cCode"));
 						data2.setLongitude(rs.getFloat("longitude"));
 						data2.setLatitude(rs.getFloat("latitude"));
-						data2.setCNum(rs.getInt("cNum"));
+						data2.setcNum2019(rs.getInt("cNum2019"));
+						data2.setcNum2020(rs.getInt("cNum2020"));
 
 						dataList2.add(data2);
 					} while (rs.next());
@@ -125,11 +127,7 @@ public class DBBean {
 						conn.close();
 					} catch (SQLException ex) {
 					}
-			}
-			// dataList2 정렬
-		    Collections.sort(dataList2, (a, b) -> b.getCNum() - a.getCNum());
-		    
+			}		    
 			return dataList2;
 		}
-
 }

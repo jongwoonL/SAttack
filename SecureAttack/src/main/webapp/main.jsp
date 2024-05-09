@@ -41,7 +41,7 @@
 			</div>
 			<div class="right-section-inner2">
 				<div class="title-container">
-					<h1>악성 IP 기반 국가별 국내 유입 현황</h1>
+					<h1>악성 IP 기반 국가별 국내 유입 현황 TOP3</h1>
 				</div>
 				<div class="table-container">
 					<jsp:include page="table.jsp"/>

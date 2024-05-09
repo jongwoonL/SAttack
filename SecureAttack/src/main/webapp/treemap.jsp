@@ -18,7 +18,7 @@
 		for (DataBean2 data2 : dataList2) {%>
             {
                 "cName": "<%=data2.getcName()%>",
-                "cNum": <%=data2.getCNum()%>,
+                "cNum": <%=data2.getcNum2020()%>,
                 "index": <%=index++%>
             },
 <%

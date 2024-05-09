@@ -21,7 +21,7 @@ ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dat
             {
                 homelat: <%=data2.getLatitude()%>,
                 homelon: <%=data2.getLongitude()%>,
-                n: <%=data2.getCNum()%> // 데이터에서 국가별 횟수 가져오기	            
+                n: <%=data2.getcNum2020()%> // 데이터에서 국가별 횟수 가져오기	            
             },
         <%}%>
     ];

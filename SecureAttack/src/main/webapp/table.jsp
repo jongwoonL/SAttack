@@ -16,13 +16,13 @@
 		<th>횟수</th>
 	</tr>
 <%
-	for (int i = 0; i < dataList2.size(); i++) {
+	for (int i = 0; i < 3; i++) {
 		DataBean2 data2 = dataList2.get(i);
 %>
 	<tr>
 		<td><%=i + 1%></td>
 		<td><%=data2.getcName()%></td>
-		<td><%=data2.getCNum()%></td>
+		<td><%=data2.getcNum2020()%></td>
 	</tr>
 <%
 	}

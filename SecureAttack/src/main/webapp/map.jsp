@@ -24,11 +24,7 @@ String data = request.getParameter("data");
         {
             homelat: <%= data2.getLatitude() %>,
             homelon: <%= data2.getLongitude() %>,
-            <% if (data.equals("") || data.equals("2020")) { %>
-                n: <%= data2.getcNum2020() %> // 데이터에서 국가별 횟수 가져오기	   
-            <% } else if (data.equals("2019")) { %>
-                n: <%= data2.getcNum2019() %> // 데이터에서 국가별 횟수 가져오기	
-            <% } %>
+            n: <%= data2.getcNum2020() %> // 데이터에서 국가별 횟수 가져오기	   
         },
     <% } %>
 	];

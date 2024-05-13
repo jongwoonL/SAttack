@@ -6,6 +6,10 @@
 
 <%			
 	ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dataList2");
+	String year = "2020";
+	if (request.getParameter("year") != null) {
+		year = request.getParameter("year");
+	}
 %>
 
 <!-- 공격 국가별 횟수 테이블 -->
@@ -22,7 +26,21 @@
 	<tr>
 		<td><%=i + 1%></td>
 		<td><%=data2.getcName()%></td>
-		<td><%=data2.getcNum2020()+data2.getcNum2019()%></td>
+<%
+	if (year.equals("2018")) {
+%>
+		<td><%=data2.getcNum2019()%></td>
+<% 
+	} else if (year.equals("2019")) {
+%>
+		<td><%=data2.getcNum2019()%></td>
+<%
+	} else {
+%>
+		<td><%=data2.getcNum2020()%></td>
+<%
+	}
+%>
 	</tr>
 <%
 	}

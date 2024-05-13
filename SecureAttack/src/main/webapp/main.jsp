@@ -4,6 +4,15 @@
 <%@ include file="data.jsp" %>
 <link rel="stylesheet" href="styles.css">
 
+<%
+	String year = "2020";
+	if (request.getParameter("year") != null) {
+		year = request.getParameter("year");
+	}
+	
+	request.setAttribute("year", year);
+%>
+
 <body>
 	<div class="container">
 		<div class="left-section">
@@ -17,13 +26,13 @@
 			</div>
 			<div class="left-section-inner2">
 				<div class="title-container">
-					<h1>악성 IP 기반 국가별 국내 유입 현황</h1>
+					<h1>전체 악성 IP 기반 국가별 국내 유입 현황</h1>
 				</div>
 				<jsp:include page="bar.jsp"/>
 			</div>
 			<div class="left-section-inner3">
 				<div class="title-container">
-					<h1>악성 IP 기반 국가별 국내 유입 현황</h1>
+					<h1><%=year%>년 악성 IP 기반 국가별 국내 유입 현황</h1>
 				</div>
 				<div class="treemap-container">
 					<jsp:include page="treemap.jsp"/>
@@ -33,20 +42,20 @@
 		<div class="right-section">
 			<div class="right-section-inner1">
 				<div class="title-container">
-					<h1>악성 IP 기반 국가별 국내 유입 현황</h1>
+					<h1><%=year%>년 악성 IP 기반 국가별 국내 유입 현황</h1>
+				</div>
+				<div class="button-container">
+						<a href="main.jsp?year=2018"><button>2018</button></a>
+						<a href="main.jsp?year=2019"><button>2019</button></a>
+						<a href="main.jsp?year=2020"><button>2020</button></a>
 				</div>
 				<div class="map-container">
-					<div class="button-container">
-						<a href="map.jsp?data=2018"><button>버튼 1</button></a>
-						<a href="map.jsp?data=2019"><button>버튼 2</button></a>
-						<a href="map.jsp?data=2020"><button>버튼 3</button></a>
-					</div>
 					<jsp:include page="map.jsp"/>
 				</div>
 			</div>
 			<div class="right-section-inner2">
 				<div class="title-container">
-					<h1>악성 IP 기반 국가별 국내 유입 현황 TOP3</h1>
+					<h1><%=year%>년 악성 IP 기반 국가별 국내 유입 현황</h1>
 				</div>
 				<div class="table-container">
 					<jsp:include page="table.jsp"/>

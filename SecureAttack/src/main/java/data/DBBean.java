@@ -90,8 +90,7 @@ public class DBBean {
 			try {
 				conn = getConnection();
 
-				String sql1 = "SELECT cCode, cName, latitude, longitude, SUM(CASE WHEN year = 2019 THEN cNum ELSE 0 END) AS cNum2019, SUM(CASE WHEN year = 2020 THEN cNum ELSE 0 END) AS cNum2020 FROM dataset GROUP BY cCode, cName, latitude, longitude"
-						+ " order by cNum2020 desc;";
+				String sql1 = "SELECT * from dataset2 order by cNum2020 desc;";
 				pstmt = conn.prepareStatement(sql1);				
 				rs = pstmt.executeQuery();
 

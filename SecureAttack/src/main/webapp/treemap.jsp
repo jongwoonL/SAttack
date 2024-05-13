@@ -7,8 +7,12 @@
 
 <svg class="treemap" id="treemap" width="1000" height="800"></svg>
 
-<%			
+<%	
 	ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dataList2");
+	String year = "2020";
+	if (request.getParameter("year") != null) {
+		year = request.getParameter("year");
+	}
 
 	//데이터를 cNum 기준으로 내림차순으로 정렬
 	Collections.sort(dataList2, (o1, o2) -> Integer.compare(o2.getcNum2020(), o1.getcNum2020()));
@@ -27,8 +31,22 @@
 		for (DataBean2 data2 : top10DataList) {%>
             {
                 "cName": "<%=data2.getcName()%>",
-                "cNum": <%=data2.getcNum2020()%>,
-                "index": <%=index++%>
+                <% 
+                if (year.equals("2018")) {
+                %>
+                "cNum": <%=data2.getcNum2019()%>
+                <%
+                } else if (year.equals("2019")) {
+                %>
+                "cNum": <%=data2.getcNum2019()%>
+                <%
+                } else {
+               	%>
+               	"cNum": <%=data2.getcNum2020()%>
+               	<%
+                }
+                %>
+                , "index": <%=index++%>
             },
 <%
        }

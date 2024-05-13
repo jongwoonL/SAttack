@@ -5,9 +5,16 @@ public class DataBean2 {
 	private String cCode;
 	private float longitude;
 	private float latitude;
+	private int cNum2018;
 	private int cNum2019;
 	private int cNum2020;
 	
+	public int getcNum2018() {
+		return cNum2018;
+	}
+	public void setcNum2018(int cNum2018) {
+		this.cNum2018 = cNum2018;
+	}
 	public int getcNum2019() {
 		return cNum2019;
 	}

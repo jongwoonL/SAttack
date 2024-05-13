@@ -34,7 +34,7 @@
                 <% 
                 if (year.equals("2018")) {
                 %>
-                "cNum": <%=data2.getcNum2019()%>
+                "cNum": <%=data2.getcNum2018()%>
                 <%
                 } else if (year.equals("2019")) {
                 %>
@@ -86,4 +86,11 @@
         .attr("y", 13)
         .attr("dy", ".35em")
         .text(function(d) { return d.data.cName; });
+    
+    cell.append("text")
+	    .attr("x", 3)
+	    .attr("y", 30)
+	    .attr("dy", "0.35em")
+	    .style("fill", "white")
+	    .text(function(d) { return "(" + d.data.cNum + ")"; });
 </script>

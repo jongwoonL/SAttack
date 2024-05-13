@@ -28,11 +28,11 @@
             <%
             	if (year.equals("2018")) {
             %>
-				n: <%= data2.getcNum2019() %> // 데이터에서 국가별 횟수 가져오기
+				n: <%= data2.getcNum2018() %> // 데이터에서 국가별 횟수 가져오기
 			<%
             	} else if (year.equals("2019")) {
             %>
-            	n: <%= data2.getcNum2019() %> // 데이터에서 국가별 횟수 가져오기
+            	n: <%= data2.getcNum2019()*100 %> // 데이터에서 국가별 횟수 가져오기
             <%
             	} else {
             %>

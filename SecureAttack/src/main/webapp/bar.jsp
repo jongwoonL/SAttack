@@ -3,100 +3,192 @@
 <%@ page import="data.DataBean2" %>
 <%@ page import="java.util.ArrayList" %>
 
+<!-- D3.js 로드 -->
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
-<style>
-    .bar-container {
-        overflow-y: auto;
-        max-height: 550px;
-    }
-</style>
+<!-- 그래프 그리기 영역 -->
+<svg class="viz_container" id="viz_container" width="1000" height="550"></svg>
 
-<div class="bar-container">
-    <svg class="bar" id="bar" width="1000" height="800"></svg>
-</div>
-
-<%			
-	ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dataList2");
+<%
+    ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dataList2");
 %>
 
 <script>
-    // JavaScript 데이터 정의
-    var data = [
-        <% for (int i = 0; i < dataList2.size(); i++) {
-               DataBean2 data2 = dataList2.get(i);
-        %>
-            {
-                "cName": "<%=data2.getcName()%>",
-                "cNum2019": <%=data2.getcNum2019()*100%>,
-                "cNum2020": <%=data2.getcNum2020()%>,
-                "cNumTotal": <%=data2.getcNum2019() + data2.getcNum2020()%>
-            }<% if(i < dataList2.size() - 1) { %>,<% } %>
-        <% } %>
-        ];
+//JavaScript 데이터 정의
+var data = [
+    <% for (DataBean2 data2 : dataList2) { %>
+        {
+            "cName": "<%=data2.getcName()%>",
+            "cNum2018": <%=data2.getcNum2018()%>,
+            "cNum2019": <%=data2.getcNum2019()%>,
+            "cNum2020": <%=data2.getcNum2020()%>
+        },
+    <% } %>
+];
 
- 	// 데이터를 cNumTotal 기준으로 내림차순 정렬
-    data.sort(function(a, b) {
-    return a.cNumTotal - b.cNumTotal;
-    });
+// SVG 요소 크기 설정
+var containerWidth = document.getElementById('viz_container').clientWidth;
+var svgWidth = containerWidth * 0.9; // SVG 요소의 너비를 최대한 화면에 맞게 조절
+var svgHeight = Math.max(data.length * 30 + 100, 200); // 데이터 크기에 따라 동적으로 높이 조절
 
-    // SVG 요소 크기 설정
-    var svgWidth = 1000;
-    var svgHeight = 4000;
+// 여백 설정
+var margin = { top: 20, right: 80, bottom: 30, left: 80 }; // 여백
+var width = svgWidth - margin.left - margin.right; // 넓이
+var height = svgHeight - margin.top - margin.bottom; // 높이
 
-    // 여백 설정
-    var margin = { top: 20, right: 20, bottom: 30, left: 80 };
-    var width = svgWidth - margin.left - margin.right;
-    var height = svgHeight - margin.top - margin.bottom;
+// SVG 요소 생성
+var svg = d3.select("#viz_container")
+    .append("svg")
+    .attr("width", svgWidth)
+    .attr("height", svgHeight)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // SVG 요소 생성
-    var svg = d3.select("#bar")
-                .attr("width", svgWidth)
-                .attr("height", svgHeight);
+// x축 눈금 설정 (로그 스케일 적용)
+var xScale = d3.scaleLog()  // 로그 스케일 적용
+    .domain([1, d3.max(data, function(d) { return Math.max(d.cNum2018, d.cNum2019, d.cNum2020); })])  // 최소값을 1로 설정하여 0값이 있는 경우에도 표시되도록 함
+    .range([0, width]);
+svg.append('g')
+    .attr("transform", "translate(0, "+ height +")")
+    .call(d3.axisBottom(xScale).tickSize(0).ticks(5).tickPadding(6).tickFormat(d3.format(".1s")))
+    .call(g => g.select(".domain").remove());
 
-    // x 축 스케일 설정
-    var x = d3.scaleLinear()
-              .domain([0, d3.max(data, function(d) { return Math.max(d.cNum2019, d.cNum2020); })])
-              .range([0, width]);
+// y축 눈금 설정
+var yScale = d3.scaleBand()
+    .domain(data.map(function (d) { return d.cName; }))
+    .range([0, height])
+    .padding(.2);
+svg.append('g')
+    .call(d3.axisLeft(yScale).tickSize(0).tickPadding(8));
 
-    // y 축 스케일 설정
-    var y = d3.scaleBand()
-              .domain(data.map(function(d) { return d.cName; }))
-              .range([height, 0]) // 범위를 반전하여 막대가 위에서부터 시작하도록 함
-              .padding(0.1);
+// 색상 설정
+var color = d3.scaleOrdinal()
+    .domain(["cNum2018", "cNum2019", "cNum2020"])
+    .range(['#0044BC', '#0072BC','#8EBEFF']);
 
-    // x 축 생성
-    svg.append("g")
-       .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
-       .call(d3.axisBottom(x));
-
- 	// y 축 생성
-    svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-    .call(d3.axisLeft(y));
- 	
-    // 막대의 너비 설정
-    var barWidth = 0;
-    
-    // 2019년 막대 그래프 생성
-    svg.selectAll(".bar-2019")
+// 그래프 그리기
+bars = svg.selectAll(".bar-group")
     .data(data)
-    .enter().append("rect")
+    .enter().append("g")
+    .attr("class", "bar-group")
+    .attr("transform", function(d) { return "translate(0," + yScale(d.cName) + ")"; });
+
+bars.append("rect")
+    .attr("class", "bar-2018")
+    .attr("x", function(d) { return 0; })
+    .attr("y", function(d) { return 0; })
+    .attr("width", function(d) { return xScale(d.cNum2018); })
+    .attr("height", function(d) { return yScale.bandwidth() / 3; }) // 높이 조정
+    .attr("fill", function(d) { return color("cNum2018"); });
+
+bars.append("rect")
     .attr("class", "bar-2019")
-    .attr("x", function(d) { return margin.left; }) // 2019년 데이터를 기준으로 x 좌표 설정
-    .attr("y", function(d) { return y(d.cName) + 30; }) // 막대 그래프의 y 좌표 설정
-    .attr("width", function(d) { return x(d.cNum2019); }) // 2019년 데이터에 해당하는 막대의 너비 설정
-    .attr("height", y.bandwidth() - 20) // 막대 그래프의 높이 설정
-    .attr("fill", "red");
-    
-    // 2020년 막대 그래프 생성
-    svg.selectAll(".bar-2020")
-    .data(data)
-    .enter().append("rect")
+    .attr("x", function(d) { return 0; })
+    .attr("y", function(d) { return yScale.bandwidth() / 3; }) // y 위치 조정
+    .attr("width", function(d) { return xScale(d.cNum2019); })
+    .attr("height", function(d) { return yScale.bandwidth() / 3; }) // 높이 조정
+    .attr("fill", function(d) { return color("cNum2019"); });
+
+bars.append("rect")
     .attr("class", "bar-2020")
-    .attr("x", function(d) { return margin.left + x(d.cNum2019) + barWidth; }) // 2019년 데이터를 기준으로 x 좌표 설정, 2019년 막대와 간격 두기
-    .attr("y", function(d) { return y(d.cName) + 30; }) // 막대 그래프의 y 좌표 설정
-    .attr("width", function(d) { return x(d.cNum2020) - x(d.cNum2019) - barWidth; }) // 2020년과 2019년 사이의 거리를 너비로 설정, 2019년 막대와 간격 두기
-    .attr("height", y.bandwidth() - 20) // 막대 그래프의 높이 설정
-    .attr("fill", "blue");
+    .attr("x", function(d) { return 0; })
+    .attr("y", function(d) { return 2 * yScale.bandwidth() / 3; }) // y 위치 조정
+    .attr("width", function(d) { return xScale(d.cNum2020); })
+    .attr("height", function(d) { return yScale.bandwidth() / 3; }) // 높이 조정
+    .attr("fill", function(d) { return color("cNum2020"); });
+
+bars.append("text")
+    .attr("class", "bar-text")
+    .attr("x", function(d) { return xScale(d.cNum2018) + 5; })
+    .attr("y", function(d) { return yScale.bandwidth() / 6; }) // cNum2018 그래프 위에 표시
+    .attr("dy", ".35em")
+    .style("font-size", "10px")
+    .text(function(d) { return d.cNum2018; });
+
+bars.append("text")
+    .attr("class", "bar-text")
+    .attr("x", function(d) { return xScale(d.cNum2019) + 5; })
+    .attr("y", function(d) { return yScale.bandwidth() / 2; }) // cNum2019 그래프 위에 표시
+    .attr("dy", ".35em")
+    .style("font-size", "10px")
+    .text(function(d) { return d.cNum2019; });
+
+bars.append("text")
+    .attr("class", "bar-text")
+    .attr("x", function(d) { return xScale(d.cNum2020) + 5; })
+    .attr("y", function(d) { return 5 * yScale.bandwidth() / 6; }) // cNum2020 그래프 아래에 표시
+    .attr("dy", ".35em")
+    .style("font-size", "10px")
+    .text(function(d) { return d.cNum2020; });
+
+// set title
+svg.append("text")
+    .attr("class", "chart-title")
+    .attr("x", -(margin.left) * 0.7)
+    .attr("y", -(margin.top) / 1.5)
+    .attr("text-anchor", "start")
+    .text("악성IP 국가별 국내 침입 현황 | 2018-2020");
+
+// set legend
+svg.append("rect")
+    .attr("x", -(margin.left) * 0.7)
+    .attr("y", -(margin.top / 2))
+    .attr("width", 10)
+    .attr("height", 10)
+    .style("fill", "#0072BC");
+svg.append("text")
+    .attr("class", "legend")
+    .attr("x", -(margin.left) * 0.7 + 20)
+    .attr("y", -(margin.top / 2.5))
+    .text("2018");
+
+svg.append("rect")
+    .attr("x", -(margin.left) * 0.7 + 60)
+    .attr("y", -(margin.top / 2))
+    .attr("width", 10)
+    .attr("height", 10)
+    .style("fill", "#0072BC");
+svg.append("text")
+    .attr("class", "legend")
+    .attr("x", -(margin.left) * 0.7 + 80)
+    .attr("y", -(margin.top / 2.5))
+    .text("2019");
+
+svg.append("rect")
+    .attr("x", -(margin.left) * 0.7 + 120)
+    .attr("y", -(margin.top / 2))
+    .attr("width", 10)
+    .attr("height", 10)
+    .style("fill", "#8EBEFF");
+svg.append("text")
+    .attr("class", "legend")
+    .attr("x", -(margin.left) * 0.7 + 140)
+    .attr("y", -(margin.top / 2.5))
+    .text("2020");
+
+// 마우스 이벤트에 대한 툴팁 요소 추가
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px");
+
+// 마우스 드래그 이벤트를 처리하여 툴팁 업데이트
+function handleDrag(event, d) {
+    tooltip.style("visibility", "visible")
+        .html(d.cName + " : " + d.cNum2020)
+        .style("left", (event.pageX) + "px")
+        .style("top", (event.pageY - 28) + "px");
+}
+
+// bars에 마우스 드래그 이벤트 리스너 추가
+bars.on("mousemove", handleDrag)
+    .on("mouseout", function() {
+        tooltip.style("visibility", "hidden");
+    });
 </script>

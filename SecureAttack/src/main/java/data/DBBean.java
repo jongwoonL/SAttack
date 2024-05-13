@@ -102,6 +102,7 @@ public class DBBean {
 						data2.setcCode(rs.getString("cCode"));
 						data2.setLongitude(rs.getFloat("longitude"));
 						data2.setLatitude(rs.getFloat("latitude"));
+						data2.setcNum2018(rs.getInt("cNum2018"));
 						data2.setcNum2019(rs.getInt("cNum2019"));
 						data2.setcNum2020(rs.getInt("cNum2020"));
 

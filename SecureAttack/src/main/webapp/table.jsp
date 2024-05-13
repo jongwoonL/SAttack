@@ -29,7 +29,7 @@
 <%
 	if (year.equals("2018")) {
 %>
-		<td><%=data2.getcNum2019()%></td>
+		<td><%=data2.getcNum2018()%></td>
 <% 
 	} else if (year.equals("2019")) {
 %>

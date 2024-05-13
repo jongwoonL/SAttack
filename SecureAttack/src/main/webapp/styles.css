@@ -1,5 +1,5 @@
 div {
-	border: 1px solid black;
+	border: none;
     padding: 5px;
     margin: 5px;
 }
@@ -49,11 +49,6 @@ div {
 .right-section-inner2 {
 	display: flex;
 	flex-direction: column;
-}
-
-.viz_container {
-    max-height: 550px;
-    overflow-y: auto;
 }
 
 .table-container {

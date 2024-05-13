@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ page import="data.DataBean2" %>
+<%@ page import="data.DataBean" %>
 <%@ page import="java.util.ArrayList" %>
 
 <%			
-	ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dataList2");
+	ArrayList<DataBean> dataList = (ArrayList<DataBean>)request.getAttribute("dataList");
 	String year = "2020";
 	if (request.getParameter("year") != null) {
 		year = request.getParameter("year");
@@ -20,24 +20,24 @@
 		<th>횟수</th>
 	</tr>
 <%
-	for (int i = 0; i < dataList2.size(); i++) {
-		DataBean2 data2 = dataList2.get(i);
+	for (int i = 0; i < dataList.size(); i++) {
+		DataBean data = dataList.get(i);
 %>
 	<tr>
 		<td><%=i + 1%></td>
-		<td><%=data2.getcName()%></td>
+		<td><%=data.getcName()%></td>
 <%
 	if (year.equals("2018")) {
 %>
-		<td><%=data2.getcNum2018()%></td>
+		<td><%=data.getcNum2018()%></td>
 <% 
 	} else if (year.equals("2019")) {
 %>
-		<td><%=data2.getcNum2019()%></td>
+		<td><%=data.getcNum2019()%></td>
 <%
 	} else {
 %>
-		<td><%=data2.getcNum2020()%></td>
+		<td><%=data.getcNum2020()%></td>
 <%
 	}
 %>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="data.DataBean2" %>
+<%@ page import="data.DataBean" %>
 <%@ page import="java.util.ArrayList" %>
 
 <script src="https://d3js.org/d3.v4.js"></script>
@@ -10,7 +10,7 @@
 <svg class="map" id="map" width="1000" height="800"></svg>
 
 <%			
-	ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dataList2");
+	ArrayList<DataBean> dataList = (ArrayList<DataBean>)request.getAttribute("dataList");
 	String year = "2020";
 	if (request.getParameter("year") != null) {
 		year = request.getParameter("year");
@@ -20,23 +20,23 @@
 <!-- 지도 차트 스크립트 -->
 <script>
     // JavaScript로 데이터 변환
-    var dataList2 = [
-    <% for (DataBean2 data2 : dataList2) { %>
+    var dataList = [
+    <% for (DataBean data : dataList) { %>
         {
-            homelat: <%= data2.getLatitude() %>,
-            homelon: <%= data2.getLongitude() %>,
+            homelat: <%= data.getLatitude() %>,
+            homelon: <%= data.getLongitude() %>,
             <%
             	if (year.equals("2018")) {
             %>
-				n: <%= data2.getcNum2018() %> // 데이터에서 국가별 횟수 가져오기
+				n: <%= data.getcNum2018() %> // 데이터에서 국가별 횟수 가져오기
 			<%
             	} else if (year.equals("2019")) {
             %>
-            	n: <%= data2.getcNum2019()*100 %> // 데이터에서 국가별 횟수 가져오기
+            	n: <%= data.getcNum2019()*100 %> // 데이터에서 국가별 횟수 가져오기
             <%
             	} else {
             %>
-            	n: <%= data2.getcNum2020() %> // 데이터에서 국가별 횟수 가져오기
+            	n: <%= data.getcNum2020() %> // 데이터에서 국가별 횟수 가져오기
             <%            		
             	}
             %>            
@@ -80,7 +80,7 @@
       // Add circles:
       map
         .selectAll("myCircles")
-        .data(dataList2)
+        .data(dataList)
         .enter()
         .append("circle")
           .attr("cx", function(d){ return projection([+d.homelon, +d.homelat])[0] })

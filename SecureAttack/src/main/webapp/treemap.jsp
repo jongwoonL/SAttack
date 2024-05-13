@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="data.DataBean2" %>
+<%@ page import="data.DataBean" %>
 <%@ page import="java.util.*" %>
 	
 <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -8,19 +8,19 @@
 <svg class="treemap" id="treemap" width="1000" height="800"></svg>
 
 <%	
-	ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dataList2");
+	ArrayList<DataBean> dataList = (ArrayList<DataBean>)request.getAttribute("dataList");
 	String year = "2020";
 	if (request.getParameter("year") != null) {
 		year = request.getParameter("year");
 	}
 
 	//데이터를 cNum 기준으로 내림차순으로 정렬
-	Collections.sort(dataList2, (o1, o2) -> Integer.compare(o2.getcNum2020(), o1.getcNum2020()));
+	Collections.sort(dataList, (o1, o2) -> Integer.compare(o2.getcNum2020(), o1.getcNum2020()));
 	
 	// 상위 10개의 데이터만 선택
-	ArrayList<DataBean2> top10DataList = new ArrayList<>();
-	for (int i = 0; i < Math.min(dataList2.size(), 10); i++) {
-	    top10DataList.add(dataList2.get(i));
+	ArrayList<DataBean> top10DataList = new ArrayList<>();
+	for (int i = 0; i < Math.min(dataList.size(), 10); i++) {
+	    top10DataList.add(dataList.get(i));
 }
 %>
 
@@ -28,21 +28,21 @@
 <script>
     var data = [
 <%		int index = 0;
-		for (DataBean2 data2 : top10DataList) {%>
+		for (DataBean data : top10DataList) {%>
             {
-                "cName": "<%=data2.getcName()%>",
+                "cName": "<%=data.getcName()%>",
                 <% 
                 if (year.equals("2018")) {
                 %>
-                "cNum": <%=data2.getcNum2018()%>
+                "cNum": <%=data.getcNum2018()%>
                 <%
                 } else if (year.equals("2019")) {
                 %>
-                "cNum": <%=data2.getcNum2019()%>
+                "cNum": <%=data.getcNum2019()%>
                 <%
                 } else {
                	%>
-               	"cNum": <%=data2.getcNum2020()%>
+               	"cNum": <%=data.getcNum2020()%>
                	<%
                 }
                 %>

@@ -28,13 +28,13 @@
 				<div class="title-container">
 					<h1>전체 악성 IP 기반 국가별 국내 유입 현황</h1>
 				</div>
-				<div class="biz-container">
-					<jsp:include page="bar.jsp"/>
-				</div>				
+				<div class="viz-container">
+					<jsp:include page="bar.jsp"/>	
+				</div>		
 			</div>
 			<div class="left-section-inner3">
 				<div class="title-container">
-					<h1><%=year%>년 악성 IP 기반 국가별 국내 유입 현황</h1>
+					<h1><%=year%>년 악성 IP 기반 국가별 국내 유입 현황(TOP 10)</h1>
 				</div>
 				<div class="treemap-container">
 					<jsp:include page="treemap.jsp"/>

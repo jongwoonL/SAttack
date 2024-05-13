@@ -1,27 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="data.DataBean2" %>
+<%@ page import="data.DataBean" %>
 <%@ page import="java.util.ArrayList" %>
 
 <!-- D3.js 로드 -->
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
+<style>
+    .viz-container {
+        overflow-y: auto;
+        max-height: 550px;
+    }
+</style>
+
 <!-- 그래프 그리기 영역 -->
-<svg class="viz_container" id="viz_container" width="1000" height="550"></svg>
+<div class="viz_container">
+	<svg id="viz_container" width="1000" height="2700"></svg>
+</div>
+
 
 <%
-    ArrayList<DataBean2> dataList2 = (ArrayList<DataBean2>)request.getAttribute("dataList2");
+    ArrayList<DataBean> dataList = (ArrayList<DataBean>)request.getAttribute("dataList");
 %>
 
 <script>
 //JavaScript 데이터 정의
 var data = [
-    <% for (DataBean2 data2 : dataList2) { %>
+    <% for (DataBean data : dataList) { %>
         {
-            "cName": "<%=data2.getcName()%>",
-            "cNum2018": <%=data2.getcNum2018()%>,
-            "cNum2019": <%=data2.getcNum2019()%>,
-            "cNum2020": <%=data2.getcNum2020()%>
+            "cName": "<%=data.getcName()%>",
+            "cNum2018": <%=data.getcNum2018()%>,
+            "cNum2019": <%=data.getcNum2019()%>,
+            "cNum2020": <%=data.getcNum2020()%>
         },
     <% } %>
 ];

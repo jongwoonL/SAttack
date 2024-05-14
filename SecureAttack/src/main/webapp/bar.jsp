@@ -15,7 +15,7 @@
 
 <!-- 그래프 그리기 영역 -->
 <div class="viz_container">
-	<svg id="viz_container" width="1000" height="2700"></svg>
+	<svg id="viz_container" width="1000" height="7030"></svg>
 </div>
 
 
@@ -39,10 +39,10 @@ var data = [
 // SVG 요소 크기 설정
 var containerWidth = document.getElementById('viz_container').clientWidth;
 var svgWidth = containerWidth * 0.9; // SVG 요소의 너비를 최대한 화면에 맞게 조절
-var svgHeight = Math.max(data.length * 30 + 100, 200); // 데이터 크기에 따라 동적으로 높이 조절
+var svgHeight = Math.max(data.length * 80 + 100, 200); // 데이터 크기에 따라 동적으로 높이 조절
 
 // 여백 설정
-var margin = { top: 20, right: 80, bottom: 30, left: 80 }; // 여백
+var margin = { top: 100, right: 80, bottom: 30, left: 80 }; // 여백
 var width = svgWidth - margin.left - margin.right; // 넓이
 var height = svgHeight - margin.top - margin.bottom; // 높이
 
@@ -86,7 +86,7 @@ bars = svg.selectAll(".bar-group")
 bars.append("rect")
     .attr("class", "bar-2018")
     .attr("x", function(d) { return 0; })
-    .attr("y", function(d) { return 0; })
+    .attr("y", function(d) { return 0; })  // y 위치 조정
     .attr("width", function(d) { return xScale(d.cNum2018); })
     .attr("height", function(d) { return yScale.bandwidth() / 3; }) // 높이 조정
     .attr("fill", function(d) { return color("cNum2018"); });
@@ -112,7 +112,7 @@ bars.append("text")
     .attr("x", function(d) { return xScale(d.cNum2018) + 5; })
     .attr("y", function(d) { return yScale.bandwidth() / 6; }) // cNum2018 그래프 위에 표시
     .attr("dy", ".35em")
-    .style("font-size", "10px")
+    .style("font-size", "15px")
     .text(function(d) { return d.cNum2018; });
 
 bars.append("text")
@@ -120,7 +120,7 @@ bars.append("text")
     .attr("x", function(d) { return xScale(d.cNum2019) + 5; })
     .attr("y", function(d) { return yScale.bandwidth() / 2; }) // cNum2019 그래프 위에 표시
     .attr("dy", ".35em")
-    .style("font-size", "10px")
+    .style("font-size", "15px")
     .text(function(d) { return d.cNum2019; });
 
 bars.append("text")
@@ -128,52 +128,52 @@ bars.append("text")
     .attr("x", function(d) { return xScale(d.cNum2020) + 5; })
     .attr("y", function(d) { return 5 * yScale.bandwidth() / 6; }) // cNum2020 그래프 아래에 표시
     .attr("dy", ".35em")
-    .style("font-size", "10px")
+    .style("font-size", "15px")
     .text(function(d) { return d.cNum2020; });
 
 // set title
 svg.append("text")
     .attr("class", "chart-title")
     .attr("x", -(margin.left) * 0.7)
-    .attr("y", -(margin.top) / 1.5)
+    .attr("y", -(margin.top) / 1.5 + 10)
     .attr("text-anchor", "start")
     .text("악성IP 국가별 국내 침입 현황 | 2018-2020");
 
 // set legend
 svg.append("rect")
     .attr("x", -(margin.left) * 0.7)
-    .attr("y", -(margin.top / 2))
+    .attr("y", -(margin.top / 2) + 20)
     .attr("width", 10)
     .attr("height", 10)
     .style("fill", "#0072BC");
 svg.append("text")
     .attr("class", "legend")
     .attr("x", -(margin.left) * 0.7 + 20)
-    .attr("y", -(margin.top / 2.5))
+    .attr("y", -(margin.top / 2.5) + 20)
     .text("2018");
 
 svg.append("rect")
-    .attr("x", -(margin.left) * 0.7 + 60)
-    .attr("y", -(margin.top / 2))
+    .attr("x", -(margin.left) * 0.7 + 80)
+    .attr("y", -(margin.top / 2) + 20)
     .attr("width", 10)
     .attr("height", 10)
     .style("fill", "#0072BC");
 svg.append("text")
     .attr("class", "legend")
-    .attr("x", -(margin.left) * 0.7 + 80)
-    .attr("y", -(margin.top / 2.5))
+    .attr("x", -(margin.left) * 0.7 + 100)
+    .attr("y", -(margin.top / 2.5) + 20)
     .text("2019");
 
 svg.append("rect")
-    .attr("x", -(margin.left) * 0.7 + 120)
-    .attr("y", -(margin.top / 2))
+    .attr("x", -(margin.left) * 0.7 + 160)
+    .attr("y", -(margin.top / 2) + 20)
     .attr("width", 10)
     .attr("height", 10)
     .style("fill", "#8EBEFF");
 svg.append("text")
     .attr("class", "legend")
-    .attr("x", -(margin.left) * 0.7 + 140)
-    .attr("y", -(margin.top / 2.5))
+    .attr("x", -(margin.left) * 0.7 + 180)
+    .attr("y", -(margin.top / 2.5) + 20)
     .text("2020");
 
 // 마우스 이벤트에 대한 툴팁 요소 추가
@@ -191,7 +191,7 @@ var tooltip = d3.select("body").append("div")
 // 마우스 드래그 이벤트를 처리하여 툴팁 업데이트
 function handleDrag(event, d) {
     tooltip.style("visibility", "visible")
-        .html(d.cName + " : " + d.cNum2020)
+        .html(d.cName + "<br>2018 : " + d.cNum2018 + "<br>2019 : " + d.cNum2019 + "<br>2020 : " + d.cNum2020)
         .style("left", (event.pageX) + "px")
         .style("top", (event.pageY - 28) + "px");
 }

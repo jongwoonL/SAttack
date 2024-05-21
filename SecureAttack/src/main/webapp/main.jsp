@@ -32,12 +32,12 @@ request.setAttribute("year", year);
 <main class="container mx-auto my-8 grid grid-cols-2 gap-8">
     <div>
         <h2 class="text-xl font-bold mb-4">전체 악성 IP 기반 국가별 국내 유입 현황</h2>
-        <div class="bg-gray-200 p-4 mb-8 chart-container w-full">
+        <div class="bg-gray-200 p-4 mb-8 chart-container w-full" id="barChartContainer">
             <jsp:include page="bar.jsp"/>
         </div>
 
         <h2 class="text-xl font-bold mb-4"><%=year%>년 악성 IP 기반 국가별 국내 유입 현황(TOP 10)</h2>
-        <div class="bg-gray-200 p-4 chart-container w-full">
+        <div class="bg-gray-200 p-4 chart-container w-full" id="treemapChartContainer">
             <jsp:include page="treemap.jsp">
                 <jsp:param name="year" value="<%= year %>" />
             </jsp:include>
@@ -46,18 +46,62 @@ request.setAttribute("year", year);
 
     <div>
         <h2 class="text-xl font-bold mb-4"><%=year%>년 악성 IP 기반 국가별 국내 유입 현황</h2>
-        <div class="bg-gray-200 p-4 mb-8 chart-container w-full">
+        <div class="bg-gray-200 p-4 mb-8 chart-container w-full" id="mapChartContainer">
             <jsp:include page="map.jsp"/>
         </div>
 
         <h2 class="text-xl font-bold mb-4"><%=year%>년 악성 IP 기반 국가별 국내 유입 현황</h2>
-        <div class="bg-gray-200 p-4 chart-container w-full">
+        <div class="bg-gray-200 p-4 chart-container w-full" id="tableChartContainer">
             <jsp:include page="table.jsp"/>
         </div>
     </div>
 </main>
 
 <footer class="bg-gray-800 py-4 text-center text-white">
-    &copy; 2023 Your Company
+    &copy; 2024 HACKNOW
 </footer>
 
+
+<script>
+    // 드래그 스크롤을 구현하는 JavaScript 코드
+    function enableDragScroll(containerId) {
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let scrollingX = false;
+        let scrollingY = false;
+
+        const chartContainer = document.getElementById(containerId);
+
+        chartContainer.addEventListener('mousedown', (e) => {
+            scrollingX = true;
+            scrollingY = true;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (scrollingX) {
+                const deltaX = dragStartX - e.clientX;
+                chartContainer.scrollLeft += deltaX;
+                dragStartX = e.clientX;
+            }
+
+            if (scrollingY) {
+                const deltaY = dragStartY - e.clientY;
+                chartContainer.scrollTop += deltaY;
+                dragStartY = e.clientY;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            scrollingX = false;
+            scrollingY = false;
+        });
+    }
+
+    enableDragScroll('barChartContainer');
+    enableDragScroll('treemapChartContainer');
+    enableDragScroll('mapChartContainer');
+    enableDragScroll('tableChartContainer');
+</script>
